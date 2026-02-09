@@ -93,8 +93,8 @@ PASO 5: Desplegar
 -----------------
 1. Guarda los cambios y clic en "Create Web Service".
 2. Render ejecutará Build y luego Start.
-3. La URL del backend será algo como: https://comecyt-api.onrender.com
-4. Prueba: https://comecyt-api.onrender.com/actuator/health (si tienes actuator).
+3. La URL del backend será algo como: https://comecyt-back.onrender.com
+4. Prueba: https://comecyt-back.onrender.com/actuator/health (si tienes actuator).
 
 
 CORS
@@ -135,7 +135,7 @@ Errores frecuentes
 - 404 en OPTIONS o POST a /auth/register con "CORS Missing Allow Origin": suele ser que el
   servicio estaba dormido (plan free). Render devuelve 404 o error antes de que Spring arranque;
   al no haber respuesta del backend, no hay cabeceras CORS. Espera 30–60 s y reintenta; la URL
-  del backend debe ser la del Web Service (ej. https://comecyt-api.onrender.com) sin barra final.
+  del backend debe ser la del Web Service (ej. https://comecyt-back.onrender.com) sin barra final.
   El backend debe usar server.port=${PORT:8080}; Render asigna PORT automáticamente.
 
 
@@ -151,7 +151,7 @@ No hace falta ninguna variable de entorno extra para CORS; los orígenes ya est�
    - Si la app no arrancó (error de BD, OutOfMemory, etc.), corrige y haz "Manual Deploy".
 4. Si está dormido (plan Free):
    - La primera petición tras 15 min de inactividad puede devolver 404/502 sin CORS.
-   - Abre en otra pestaña: https://comecyt-api.onrender.com/actuator/health
+   - Abre en otra pestaña: https://comecyt-back.onrender.com/actuator/health
    - Espera 30–60 segundos (Render despierta el servicio). Vuelve a cargar.
    - Cuando responda {"status":"UP"} o similar, prueba de nuevo el login desde el front.
 5. Variables de entorno obligatorias para que el backend arranque (Environment):
