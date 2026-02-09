@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // Permite la conexión desde tu puerto de Angular
 public class AuthController {
 
     private final AuthService authService;

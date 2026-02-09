@@ -99,8 +99,10 @@ PASO 5: Desplegar
 
 CORS
 ----
-Si el frontend estará en otro dominio (ej. en Render también), configura CORS en el
-backend para permitir el origen del front (en SecurityConfig o con @CrossOrigin).
+El backend incluye CorsFilterExplicit (prioridad máxima): responde a OPTIONS con 200
+y añade Access-Control-Allow-Origin a todas las respuestas para los orígenes permitidos
+(https://comecyt-front.onrender.com y http://localhost:4200). No configures "Path" en
+Render para el Web Service (debe ser /) o las rutas no coincidirán (/auth/register).
 
 
 Las tablas no se crean (PostgreSQL en Render)
