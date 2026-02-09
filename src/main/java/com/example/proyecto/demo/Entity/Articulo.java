@@ -49,11 +49,9 @@ public class Articulo {
     private String doi;
 
     @Lob
-    @Lob
     @Column(name = "nombre_revista")
     private String nombreRevista;
 
-    @Lob
     @Lob
     @Column(name = "titulo")
     private String titulo;
@@ -67,7 +65,6 @@ public class Articulo {
     @Column(name = "objetivo_nombre", length = 50)
     private String objetivoNombre;
 
-    @Lob
     @Lob
     @Column(name = "fondo_programa_nombre")
     private String fondoProgramaNombre;
