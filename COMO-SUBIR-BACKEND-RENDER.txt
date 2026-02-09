@@ -7,7 +7,7 @@ Requisitos previos
 - Cuenta en https://render.com
 - Repositorio Git con el código del backend (carpeta Back/back-comecyt o la raíz del back)
 - Base de datos MySQL accesible desde internet (Render MySQL, PlanetScale, Railway, etc.)
-
+------
 
 PASO 1: Base de datos MySQL
 ----------------------------
