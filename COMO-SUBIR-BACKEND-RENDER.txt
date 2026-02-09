@@ -103,6 +103,22 @@ Si el frontend estará en otro dominio (ej. en Render también), configura CORS 
 backend para permitir el origen del front (en SecurityConfig o con @CrossOrigin).
 
 
+Las tablas no se crean (PostgreSQL en Render)
+----------------------------------------------
+Con spring.jpa.hibernate.ddl-auto=update, Hibernate crea las tablas al arrancar.
+Si ves "relation ... does not exist" o "permission denied for schema public":
+
+1. Permisos en la BD: en Render → tu PostgreSQL → Connect → Shell/PSQL, ejecuta
+   el script scripts/schema-postgres-render.sql (da CREATE y USAGE en schema public
+   al usuario de la app, ej. comecyt_db_portal_user).
+
+2. URL con SSL: la URL debe llevar sslmode=require:
+   jdbc:postgresql://...?user=...&password=...&sslmode=require
+
+3. Primera vez solo: si quieres forzar que se creen todas las tablas desde cero,
+   pon en application.properties (temporalmente) spring.jpa.hibernate.ddl-auto=create,
+   despliega una vez, luego vuelve a change a update (create borra datos en cada inicio).
+
 Errores frecuentes
 ------------------
 - "Build failed": revisa que Root Directory sea correcta y que mvnw exista.

@@ -1,11 +1,8 @@
 package com.example.proyecto.demo.config;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,10 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import com.example.proyecto.demo.security.JwtFilter;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -71,29 +64,10 @@ public class SecurityConfig {
                         .accessDeniedHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
                 )
 
-                // Opcional: CORS si pegas desde navegador
-                .cors(Customizer.withDefaults());
+                // CORS: configurado en CorsConfig (comecyt-front.onrender.com + localhost)
+                .cors(cors -> {});
 
         return http.build();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration cfg = new CorsConfiguration();
-
-        // Desarrollo: front local. Producción: front en Render (JWT en header Authorization)
-        cfg.setAllowedOrigins(List.of(
-                "http://localhost:4200",
-                "https://comecyt-front.onrender.com"
-        ));
-        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        cfg.setAllowedHeaders(List.of("*")); // Content-Type, Authorization, etc.
-        cfg.setExposedHeaders(List.of("Authorization", "Content-Type", "Cache-Control"));
-        cfg.setAllowCredentials(true); // necesario para enviar cookies si se usan; compatible con JWT en header
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", cfg);
-        return source;
     }
 
     @Bean
