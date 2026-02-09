@@ -21,8 +21,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilterExplicit extends OncePerRequestFilter {
 
+    /** Orígenes permitidos: front en Render (cualquiera de los dos nombres) y local. */
     private static final List<String> ALLOWED_ORIGINS = List.of(
             "https://comecyt-front.onrender.com",
+            "https://comecyt-portal.onrender.com",
             "http://localhost:4200"
     );
 

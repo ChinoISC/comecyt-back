@@ -21,6 +21,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of(
                 "https://comecyt-front.onrender.com",
+                "https://comecyt-portal.onrender.com",
                 "http://localhost:4200"
         ));
         config.setAllowedHeaders(List.of("*"));

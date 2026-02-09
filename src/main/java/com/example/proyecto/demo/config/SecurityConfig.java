@@ -21,10 +21,13 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final CorsFilterExplicit corsFilterExplicit;
 
     @Bean
     public SecurityFilterChain api(HttpSecurity http) throws Exception {
         http
+                // CORS antes de JWT (preflight OPTIONS y cabeceras en todas las respuestas)
+                .addFilterBefore(corsFilterExplicit, JwtFilter.class)
                 // API stateless: desactiva CSRF para permitir POST/PATCH/DELETE sin token CSRF
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
