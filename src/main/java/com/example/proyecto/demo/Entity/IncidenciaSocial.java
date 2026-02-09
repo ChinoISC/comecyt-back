@@ -32,7 +32,7 @@ public class IncidenciaSocial {
 
     /** Descripción o resumen */
     @Lob
-    @Column(name = "descripcion", columnDefinition = "LONGTEXT")
+    @Column(name = "descripcion")
     private String descripcion;
 
     /** Fecha de realización o vigencia */

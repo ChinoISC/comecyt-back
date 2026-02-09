@@ -24,7 +24,7 @@ public class Curso {
     private Usuario usuario;
 
     @Lob
-    @Column(name = "nombre", columnDefinition = "LONGTEXT")
+    @Column(name = "nombre")
     private String nombre;
 
     @Column(name = "programa", length = 255)

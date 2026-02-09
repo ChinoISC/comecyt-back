@@ -24,14 +24,14 @@ public class Estancia {
     private Usuario usuario;
 
     @Lob
-    @Column(name = "nombre_proyecto", columnDefinition = "LONGTEXT")
+    @Column(name = "nombre_proyecto")
     private String nombreProyecto;
 
     @Column(name = "tipo_nombre", length = 100)
     private String tipoNombre;
 
     @Lob
-    @Column(name = "logros", columnDefinition = "LONGTEXT")
+    @Column(name = "logros")
     private String logros;
 
     @Column(name = "fecha_inicio")

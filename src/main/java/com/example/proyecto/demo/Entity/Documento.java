@@ -41,7 +41,7 @@ public class Documento {
     // Esto mejora el rendimiento al listar documentos sin necesidad de cargar los bytes
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "contenido", columnDefinition = "LONGBLOB", nullable = false)
+    @Column(name = "contenido", nullable = false)
     private byte[] contenido;
 
     // Relación con Usuario (obligatoria)

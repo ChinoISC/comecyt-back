@@ -25,7 +25,7 @@ public class InteresHabilidad {
     private String fotoUri;
 
     @Lob
-    @Column(name = "interes_descripcion", columnDefinition = "LONGTEXT")
+    @Column(name = "interes_descripcion")
     private String interesDescripcion;
 
     @Column(name = "habilidad_descripcion", length = 255)

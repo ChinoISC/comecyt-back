@@ -39,7 +39,7 @@ public class TrayectoriaAcademica {
     private String opcionTitulacion;
 
     @Lob
-    @Column(name = "titulo_tesis", columnDefinition = "LONGTEXT")
+    @Column(name = "titulo_tesis")
     private String tituloTesis;
 
     @Column(name = "fecha_obtencion")

@@ -36,6 +36,6 @@ public class TrayectoriaProfesional {
     private Boolean esActual;
 
     @Lob
-    @Column(name = "logros", columnDefinition = "LONGTEXT")
+    @Column(name = "logros")
     private String logros;
 }

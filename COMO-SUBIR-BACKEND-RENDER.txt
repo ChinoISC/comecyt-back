@@ -115,8 +115,9 @@ Si ves "relation ... does not exist" o "permission denied for schema public":
 2. URL con SSL: la URL debe llevar sslmode=require:
    jdbc:postgresql://...?user=...&password=...&sslmode=require
 
-3. Error "relation articulos does not exist" (u otras tablas): Hibernate a veces aplica
-   cambios en orden incorrecto con ddl-auto=update. Solución:
+3. Error "relation documentos/articulos does not exist": Las entidades tenían columnDefinition
+   MySQL (LONGBLOB, LONGTEXT); en PostgreSQL eso falla y la tabla no se crea. Ya se quitó
+   en el código; si persiste, usa SPRING_JPA_HIBERNATE_DDL_AUTO=create una vez:
    - En Render → tu Web Service → Environment, añade:
      SPRING_JPA_HIBERNATE_DDL_AUTO = create
    - Redeploy. La app creará todas las tablas desde cero y arrancará.

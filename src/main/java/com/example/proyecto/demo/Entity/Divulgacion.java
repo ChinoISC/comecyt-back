@@ -24,7 +24,7 @@ public class Divulgacion {
     private Usuario usuario;
 
     @Lob
-    @Column(name = "titulo", columnDefinition = "LONGTEXT")
+    @Column(name = "titulo")
     private String titulo;
 
     @Column(name = "tipo_divulgacion_nombre", length = 100)

@@ -25,7 +25,7 @@ public class Logro {
     private String tipo;
 
     @Lob
-    @Column(name = "nombre", columnDefinition = "LONGTEXT")
+    @Column(name = "nombre")
     private String nombre;
 
     @Column(name = "anio")

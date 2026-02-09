@@ -24,11 +24,11 @@ public class Congreso {
     private Usuario usuario;
 
     @Lob
-    @Column(name = "nombre_evento", columnDefinition = "LONGTEXT")
+    @Column(name = "nombre_evento")
     private String nombreEvento;
 
     @Lob
-    @Column(name = "titulo_trabajo", columnDefinition = "LONGTEXT")
+    @Column(name = "titulo_trabajo")
     private String tituloTrabajo;
 
     @Column(name = "tipo_participacion_nombre", length = 100)

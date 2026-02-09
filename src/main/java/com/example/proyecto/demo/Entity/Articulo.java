@@ -49,11 +49,13 @@ public class Articulo {
     private String doi;
 
     @Lob
-    @Column(name = "nombre_revista", columnDefinition = "LONGTEXT")
+    @Lob
+    @Column(name = "nombre_revista")
     private String nombreRevista;
 
     @Lob
-    @Column(name = "titulo", columnDefinition = "LONGTEXT")
+    @Lob
+    @Column(name = "titulo")
     private String titulo;
 
     @Column(name = "rol_participacion_nombre", length = 100)
@@ -66,7 +68,8 @@ public class Articulo {
     private String objetivoNombre;
 
     @Lob
-    @Column(name = "fondo_programa_nombre", columnDefinition = "LONGTEXT")
+    @Lob
+    @Column(name = "fondo_programa_nombre")
     private String fondoProgramaNombre;
 
     // Relación uno a muchos con autores
