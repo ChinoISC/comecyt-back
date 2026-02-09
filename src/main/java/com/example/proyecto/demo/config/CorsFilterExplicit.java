@@ -29,7 +29,8 @@ public class CorsFilterExplicit extends OncePerRequestFilter {
     );
 
     private static final String ALLOWED_METHODS = "GET, POST, PUT, PATCH, DELETE, OPTIONS";
-    private static final String ALLOWED_HEADERS = "*";
+    /** Authorization debe estar listado explícitamente; con "*" el navegador no lo permite. */
+    private static final String ALLOWED_HEADERS = "Authorization, Content-Type, Accept, X-Requested-With, Origin";
     private static final String ALLOW_CREDENTIALS = "true";
     private static final String MAX_AGE = "3600";
 

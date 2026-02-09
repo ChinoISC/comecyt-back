@@ -24,7 +24,7 @@ public class CorsConfig {
                 "https://comecyt-portal.onrender.com",
                 "http://localhost:4200"
         ));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With", "Origin"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
