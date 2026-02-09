@@ -138,4 +138,26 @@ Errores frecuentes
   del backend debe ser la del Web Service (ej. https://comecyt-api.onrender.com) sin barra final.
   El backend debe usar server.port=${PORT:8080}; Render asigna PORT automáticamente.
 
+
+Qué hacer cuando sale 404 + "falta cabecera CORS" (login/register)
+-------------------------------------------------------------------
+No hace falta ninguna variable de entorno extra para CORS; los orígenes ya están en el código.
+
+1. Entra al dashboard de Render → tu Web Service del backend (comecyt-api).
+2. Comprueba el estado: debe decir "Running" (verde). Si dice "Suspended" o no está en Running,
+   el servicio está dormido o no arrancó.
+3. Si está "Running":
+   - Abre la pestaña "Logs". ¿Ves líneas de Spring Boot (Started DemoApplication...)?
+   - Si la app no arrancó (error de BD, OutOfMemory, etc.), corrige y haz "Manual Deploy".
+4. Si está dormido (plan Free):
+   - La primera petición tras 15 min de inactividad puede devolver 404/502 sin CORS.
+   - Abre en otra pestaña: https://comecyt-api.onrender.com/actuator/health
+   - Espera 30–60 segundos (Render despierta el servicio). Vuelve a cargar.
+   - Cuando responda {"status":"UP"} o similar, prueba de nuevo el login desde el front.
+5. Variables de entorno obligatorias para que el backend arranque (Environment):
+   SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD
+   (o user/password dentro de la URL), y SECURITY_JWT_SECRET_BASE64. PORT lo asigna Render.
+6. No pongas "Path" en el Web Service (debe quedar vacío o /) para que /auth/login y
+   /auth/register respondan en la raíz.
+
 ================================================================================
