@@ -60,57 +60,68 @@ public class UsuarioController {
 
     @GetMapping("/me")
     public PerfilCompletoDTO getMe(Authentication auth) {
-        Long authUserId = (Long) auth.getPrincipal();
-        Usuario u = usuarioRepo.findByAuthUserIdWithRegistro1(authUserId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-        
-        PerfilCompletoDTO dto = PerfilCompletoDTO.from(u);
-        
-        // Obtener IDs de foto y curriculum si existen
-        Long fotoId = documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.FOTO_PERFIL)
-                .map(Documento::getId)
-                .orElse(null);
-        
-        // Buscar curriculum: primero CURRICULUM, si no existe buscar CV (para sincronización)
-        Long curriculumId = documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.CURRICULUM)
-                .map(Documento::getId)
-                .orElseGet(() -> documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.CV)
-                        .map(Documento::getId)
-                        .orElse(null));
-        
-        // Obtener el grado académico desde TrayectoriaAcademica (nivel de escolaridad)
-        String gradoAcademico = null;
         try {
-            gradoAcademico = trayectoriaAcademicaRepository.findByUsuarioId(u.getId())
-                    .stream()
-                    .findFirst() // Tomar la primera trayectoria académica
-                    .map(t -> t.getNivelNombre()) // Obtener el nivelNombre (Nivel de Escolaridad)
+            if (auth == null || auth.getPrincipal() == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autenticado");
+            }
+            Object principal = auth.getPrincipal();
+            Long authUserId = principal instanceof Long ? (Long) principal : Long.valueOf(principal.toString());
+            Usuario u = usuarioRepo.findByAuthUserIdWithRegistro1(authUserId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+            PerfilCompletoDTO dto = PerfilCompletoDTO.from(u);
+
+            // Obtener IDs de foto y curriculum si existen
+            Long fotoId = documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.FOTO_PERFIL)
+                    .map(Documento::getId)
                     .orElse(null);
+
+            // Buscar curriculum: primero CURRICULUM, si no existe buscar CV (para sincronización)
+            Long curriculumId = documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.CURRICULUM)
+                    .map(Documento::getId)
+                    .orElseGet(() -> documentoService.obtenerDocumentoPorUsuarioYTipo(u.getId(), Documento.TipoDocumento.CV)
+                            .map(Documento::getId)
+                            .orElse(null));
+
+            // Obtener el grado académico desde TrayectoriaAcademica (nivel de escolaridad)
+            String gradoAcademico = null;
+            try {
+                gradoAcademico = trayectoriaAcademicaRepository.findByUsuarioId(u.getId())
+                        .stream()
+                        .findFirst()
+                        .map(t -> t.getNivelNombre())
+                        .orElse(null);
+            } catch (Exception e) {
+                log.warn("No se pudo obtener el grado académico para usuario {}: {}", u.getId(), e.getMessage());
+            }
+
+            return new PerfilCompletoDTO(
+                    dto.id(),
+                    dto.nombre(),
+                    dto.apellidoPaterno(),
+                    dto.apellidoMaterno(),
+                    dto.email(),
+                    dto.curp(),
+                    dto.rfc(),
+                    dto.genero(),
+                    dto.fechaNacimiento(),
+                    dto.nacionalidad(),
+                    dto.paisNacimiento(),
+                    dto.entidadFederativa(),
+                    dto.estadoCivil(),
+                    dto.tipoPerfil(),
+                    dto.tienePerfilMigracion(),
+                    dto.visibilidadPerfil(),
+                    gradoAcademico,
+                    fotoId,
+                    curriculumId
+            );
+        } catch (ResponseStatusException e) {
+            throw e;
         } catch (Exception e) {
-            log.warn("No se pudo obtener el grado académico para usuario {}: {}", u.getId(), e.getMessage());
+            log.error("Error en GET /usuarios/me: {}", e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al cargar perfil: " + e.getMessage());
         }
-        
-        return new PerfilCompletoDTO(
-                dto.id(),
-                dto.nombre(),
-                dto.apellidoPaterno(),
-                dto.apellidoMaterno(),
-                dto.email(),
-                dto.curp(),
-                dto.rfc(),
-                dto.genero(),
-                dto.fechaNacimiento(),
-                dto.nacionalidad(),
-                dto.paisNacimiento(),
-                dto.entidadFederativa(),
-                dto.estadoCivil(),
-                dto.tipoPerfil(),
-                dto.tienePerfilMigracion(),
-                dto.visibilidadPerfil(),
-                gradoAcademico, // Usar el grado académico obtenido de TrayectoriaAcademica
-                fotoId,
-                curriculumId
-        );
     }
 
     @PatchMapping("/me")

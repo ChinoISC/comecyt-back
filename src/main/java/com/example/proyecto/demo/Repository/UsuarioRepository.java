@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.registro1 WHERE u.authUser.id = :authUserId")
+    @Query("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.authUser LEFT JOIN FETCH u.registro1 WHERE u.authUser.id = :authUserId")
     Optional<Usuario> findByAuthUserIdWithRegistro1(@Param("authUserId") Long authUserId);
     
     @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.registro1 LEFT JOIN FETCH u.perfilMigracion WHERE u.authUser.id = :authUserId")
