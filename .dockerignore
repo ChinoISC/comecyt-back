@@ -1,0 +1,23 @@
+# Build y artefactos
+target/
+*.jar
+*.war
+
+# Logs y datos locales (no van en la imagen)
+logs/
+usuarios/
+
+# Git y IDE
+.git
+.gitignore
+.idea
+*.iml
+.vscode
+
+# Documentación y scripts (opcional, no necesarios para ejecutar)
+*.md
+scripts/
+src.zip
+
+# Maven wrapper (Docker usa Maven de la imagen)
+.mvn/wrapper/maven-wrapper.jar
