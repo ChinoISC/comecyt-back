@@ -26,13 +26,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain api(HttpSecurity http) throws Exception {
         http
-                // CORS antes de JWT (preflight OPTIONS y cabeceras en todas las respuestas)
-                .addFilterBefore(corsFilterExplicit, JwtFilter.class)
+                // CORS primero, luego JWT (insertar JWT antes que CORS para que orden de ejecución sea CORS → JWT → UsernamePassword)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilterExplicit, UsernamePasswordAuthenticationFilter.class)
                 // API stateless: desactiva CSRF para permitir POST/PATCH/DELETE sin token CSRF
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-
 
                 // Autorizaciones
                 .authorizeHttpRequests(auth -> auth
@@ -57,9 +56,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-
-                // Filtro JWT antes del filtro de usuario/clave
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
                 // Diferenciar 401 (no autenticado) de 403 (sin permiso)
                 .exceptionHandling(e -> e
