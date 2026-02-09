@@ -130,5 +130,10 @@ Errores frecuentes
 - "Build failed": revisa que Root Directory sea correcta y que mvnw exista.
 - "Application failed to start": revisa SPRING_DATASOURCE_* y que la BD sea accesible.
 - Timeout en plan free: el servicio se duerme tras inactividad; la primera petición puede tardar.
+- 404 en OPTIONS o POST a /auth/register con "CORS Missing Allow Origin": suele ser que el
+  servicio estaba dormido (plan free). Render devuelve 404 o error antes de que Spring arranque;
+  al no haber respuesta del backend, no hay cabeceras CORS. Espera 30–60 s y reintenta; la URL
+  del backend debe ser la del Web Service (ej. https://comecyt-api.onrender.com) sin barra final.
+  El backend debe usar server.port=${PORT:8080}; Render asigna PORT automáticamente.
 
 ================================================================================
